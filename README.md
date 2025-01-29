@@ -54,6 +54,7 @@ A modern and responsive social media platform designed for image sharing and con
 2. Install dependencies for both frontend and backend:
    ```bash
    # Install frontend dependencies
+   cd frontend
    npm install
 
    # Install backend dependencies
@@ -93,7 +94,7 @@ A modern and responsive social media platform designed for image sharing and con
 
 ```
 socialboard/
-├── src/
+├── frontend/
 │   ├── components/      # Reusable UI components
 │   ├── pages/           # Page components
 │   ├── store/           # Zustand store configurations
@@ -106,8 +107,7 @@ socialboard/
 │   │   ├── routes/      # API routes
 │   │   ├── middleware/  # Custom middleware
 │   │   └── utils/       # Utility functions
-│   └── uploads/         # Uploaded images storage
-└── public/              # Static assets
+│── └── uploads/         # Uploaded images storage
 ```
 
 ---
@@ -161,8 +161,8 @@ These credentials are valid for a limited time and are meant for demonstration p
 ### 🔗 **Connect with me**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/shivamsingh57680/)  
-[![Portfolio](https://img.shields.io/badge/portfolio-%231DA1F2.svg?logo=Twitter&logoColor=white)](https://shivam04.tech/)  
 [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/shibbu04/)
+[![Portfolio](https://img.shields.io/badge/portfolio-%231DA1F2.svg?logo=Twitter&logoColor=white)](https://shivam04.tech/)  
 
 ---
 
