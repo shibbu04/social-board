@@ -9,7 +9,7 @@ import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
-import useThemeStore from './store/themestore';
+import useThemeStore from './store/themeStore';
 
 function App() {
   const { theme } = useThemeStore();
