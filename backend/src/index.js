@@ -12,7 +12,14 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration: Allow only specific origin (from .env)
+const corsOptions = {
+  origin: process.env.FRONTEND_URL, // Use the frontend URL from .env
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions)); // Apply the CORS configuration
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
