@@ -4,17 +4,22 @@ import useThemeStore from '../store/themeStore';
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useThemeStore();
+  const isGreenTheme = theme === 'green';
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className={`p-2 rounded-md ${
+        isGreenTheme 
+          ? 'hover:bg-theme-green-200 text-theme-green-700' 
+          : 'hover:bg-gray-100 text-gray-600'
+      } transition-colors`}
       aria-label="Toggle theme"
     >
       {theme === 'light' ? (
-        <Moon className="h-5 w-5 text-gray-600" />
+        <Moon className="h-5 w-5" />
       ) : (
-        <Sun className="h-5 w-5 text-gray-600" />
+        <Sun className="h-5 w-5" />
       )}
     </button>
   );
