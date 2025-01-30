@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { ImagePlus, Pencil, Trash2, X } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import usePostStore from '../store/postStore';
+import useThemeStore from '../store/themeStore';
 
 const postSchema = z.object({
   caption: z.string().min(1, 'Caption is required'),
@@ -28,6 +29,8 @@ const Dashboard = () => {
   const { posts, userPosts, loading, fetchUserPosts, createPost, deletePost, updatePost } = usePostStore();
   const [editingPost, setEditingPost] = useState<string | null>(null);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const { theme } = useThemeStore();
+  const isGreenTheme = theme === 'green';
 
   const {
     register,
@@ -93,7 +96,7 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <div className={`${isGreenTheme ? 'bg-theme-green-50' : 'bg-white'} rounded-lg shadow-lg p-6 mb-8`}>
         <h2 className="text-2xl font-bold mb-6">Create New Post</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
@@ -103,7 +106,7 @@ const Dashboard = () => {
             <div className="flex items-center justify-center w-full">
               <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <ImagePlus className="w-12 h-12 mb-4 text-gray-400" />
+                  <ImagePlus className={`w-12 h-12 mb-4 ${isGreenTheme ? 'text-theme-green-400' : 'text-gray-400'}`} />
                   <p className="mb-2 text-sm text-gray-500">
                     <span className="font-semibold">Click to upload</span> or drag and drop
                   </p>
@@ -165,7 +168,11 @@ const Dashboard = () => {
             <textarea
               {...register('caption')}
               rows={3}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm ${
+                isGreenTheme 
+                  ? 'focus:border-theme-green-500 focus:ring-theme-green-500' 
+                  : 'focus:border-indigo-500 focus:ring-indigo-500'
+              }`}
               placeholder="Write a caption for your post..."
             />
             {errors.caption && (
@@ -176,7 +183,11 @@ const Dashboard = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+              isGreenTheme
+                ? 'bg-theme-green-600 hover:bg-theme-green-700 focus:ring-theme-green-500'
+                : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500'
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
           >
             {isSubmitting ? 'Creating...' : 'Create Post'}
           </button>
@@ -191,7 +202,7 @@ const Dashboard = () => {
           <div className="text-center py-8 text-gray-500">No posts yet</div>
         ) : (
           userPosts.map((post) => (
-            <div key={post._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div key={post._id} className={`${isGreenTheme ? 'bg-theme-green-50' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2">
@@ -201,7 +212,11 @@ const Dashboard = () => {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => setEditingPost(post._id)}
-                      className="p-2 text-gray-600 hover:text-indigo-600 transition-colors"
+                      className={`p-2 transition-colors ${
+                        isGreenTheme 
+                          ? 'text-gray-600 hover:text-theme-green-600' 
+                          : 'text-gray-600 hover:text-indigo-600'
+                      }`}
                     >
                       <Pencil className="w-5 h-5" />
                     </button>
@@ -218,7 +233,11 @@ const Dashboard = () => {
                   <div className="space-y-4">
                     <textarea
                       defaultValue={post.caption}
-                      className="w-full p-2 border rounded-md"
+                      className={`w-full p-2 border rounded-md ${
+                        isGreenTheme 
+                          ? 'focus:border-theme-green-500 focus:ring-theme-green-500' 
+                          : 'focus:border-indigo-500 focus:ring-indigo-500'
+                      }`}
                       rows={3}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -239,7 +258,11 @@ const Dashboard = () => {
                           const textarea = e.currentTarget.parentElement?.previousElementSibling as HTMLTextAreaElement;
                           handleUpdate(post._id, textarea.value);
                         }}
-                        className="px-4 py-2 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                        className={`px-4 py-2 text-sm text-white rounded-md ${
+                          isGreenTheme
+                            ? 'bg-theme-green-600 hover:bg-theme-green-700'
+                            : 'bg-indigo-600 hover:bg-indigo-700'
+                        }`}
                       >
                         Save
                       </button>
@@ -250,14 +273,14 @@ const Dashboard = () => {
                 )}
 
                 <div className="grid grid-cols-2 gap-4">
-                    {post.images.map((image, index) => (
+                  {post.images.map((image, index) => (
                     <img
                       key={index}
                       src={`${import.meta.env.VITE_UPLOADS_URL}${image}`}
                       alt={`Post ${index + 1}`}
                       className="w-full h-48 object-cover rounded-lg"
                     />
-                    ))}
+                  ))}
                 </div>
               </div>
             </div>
